@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tasker Frontend
 
-## Getting Started
+Interface web do Tasker. Kanban de tarefas com drag-and-drop, autenticação JWT e categorias.
 
-First, run the development server:
+## Stack
+
+- Next.js 14 (App Router)
+- React 18
+- TypeScript
+- Tailwind CSS
+- Axios
+- react-hook-form + Zod
+- react-beautiful-dnd
+- lucide-react (ícones)
+
+## Pré-requisitos
+
+- Node.js 18+
+- npm
+- Backend rodando em `http://localhost:3333` (ver [tasker-backend](../tasker-backend/README.md))
+
+## Setup
+
+### 1. Instalar dependências
+
+```bash
+npm install
+```
+
+### 2. Rodar dev
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Outros scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build     # build produção
+npm start         # roda build
+npm run lint      # eslint
+```
 
-## Learn More
+## Config da API
 
-To learn more about Next.js, take a look at the following resources:
+URL do backend está fixa em [lib/axios.ts](lib/axios.ts):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ts
+baseURL: "http://localhost:3333"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Para apontar para outro host, editar esse arquivo (ou extrair para env var `NEXT_PUBLIC_API_URL`).
 
-## Deploy on Vercel
+## Estrutura
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/            # rotas App Router (pages, layouts)
+components/     # componentes UI
+context/        # contexts React (auth, etc)
+hooks/          # hooks customizados
+lib/            # axios, utils
+types/          # tipos TS compartilhados
+public/         # assets estáticos
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Fluxo básico
+
+1. Usuário registra/loga → recebe JWT do backend.
+2. Token guardado (cookie/localStorage) e injetado pelo Axios.
+3. App busca listas, itens e categorias.
+4. Drag-and-drop reordena listas/itens → persiste via `PUT /updateorderlist` e `PUT /changelist`.
+
+## Problemas comuns
+
+- **CORS / rede**: garantir backend em `:3333` e docker do Postgres rodando.
+- **401 Unauthorized**: token expirado → endpoint `PATCH /refresh-token` do backend.
+- **Porta 3000 ocupada**: `npm run dev -- -p 3001`.
