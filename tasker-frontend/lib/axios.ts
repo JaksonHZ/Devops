@@ -4,7 +4,7 @@ const api = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
   },
-  baseURL: "http://localhost:3333",
+  baseURL: "/api",
 });
 
 // Rotas que não precisam de token

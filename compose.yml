@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./tasker-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL}        # host "db" = nome do serviço
+      SECRET_JWT: ${SECRET_JWT}
+      PORT: ${BACKEND_PORT}
+    expose:
+      - "${BACKEND_PORT}"
+
+  frontend:
+    build:
+      context: ./tasker-frontend
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT}:3000"             # único ponto de entrada p/ o browser
