@@ -38,19 +38,11 @@ browser ──► localhost:3000 ──► frontend (Next)
 1. Clone e entre no diretório:
 
    ```bash
-   git clone <url-do-repo> tasker
-   cd tasker
+   git clone <url-do-repo>
+   cd Devops
+   git checkout T1-IMPLEMENTADO
    ```
-
-2. Copie o arquivo de variáveis de ambiente:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Ajuste `SECRET_JWT` e credenciais se desejar. Valores padrão já funcionam para desenvolvimento.
-
-3. Suba a stack (build + start):
+2. Suba a stack (build + start):
 
    ```bash
    docker compose up --build
@@ -62,7 +54,7 @@ browser ──► localhost:3000 ──► frontend (Next)
    docker compose up -d --build
    ```
 
-4. Acesse:
+3. Acesse:
 
    - Frontend: <http://localhost:3000>
    - Backend: **não acessível do host** — apenas via proxy do frontend em `/api/*` (ex.: <http://localhost:3000/api/user>).
