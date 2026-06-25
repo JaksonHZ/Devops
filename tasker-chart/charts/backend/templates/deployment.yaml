@@ -30,8 +30,24 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.global.backend.name }}-config
-            - secretRef:
-                name: {{ .Values.global.backend.name }}-secret
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.backend.name }}-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.backend.name }}-secret
+                  key: POSTGRES_PASSWORD
+            - name: DATABASE_URL
+              value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@{{ .Values.global.db.name }}:{{ .Values.global.db.port }}/{{ .Values.global.db.database }}?schema=public"
+            - name: SECRET_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.backend.name }}-secret
+                  key: SECRET_JWT
           readinessProbe:
             tcpSocket:
               port: {{ .Values.global.backend.port }}

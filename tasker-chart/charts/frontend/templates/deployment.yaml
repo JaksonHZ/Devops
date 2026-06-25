@@ -20,9 +20,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.global.frontend.port }}
-          envFrom:
-            - configMapRef:
-                name: {{ .Values.global.frontend.name }}-config
+          env:
+            - name: BACKEND_URL
+              value: "http://{{ .Values.global.backend.name }}:{{ .Values.global.backend.port }}"
           readinessProbe:
             httpGet:
               path: /
