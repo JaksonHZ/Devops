@@ -38,8 +38,6 @@ spec:
               command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
             initialDelaySeconds: 30
             periodSeconds: 10
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data

@@ -37,5 +37,3 @@ spec:
               port: {{ .Values.global.backend.port }}
             initialDelaySeconds: 10
             periodSeconds: 10
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
