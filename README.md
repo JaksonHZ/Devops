@@ -1,1 +1,1 @@
-O Trabalho T1, esta implementado em outra branch
+O Trabalho T1 e T2, esta implementado em outras branchs
