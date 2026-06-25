@@ -1,0 +1,14 @@
+# PersistentVolumeClaim que reivindica o PV acima e é montado pelo Deployment do banco.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.global.db.name }}-pvc
+  labels:
+    app: {{ .Values.global.db.name }}
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.storage.size }}

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    const backend = process.env.BACKEND_URL;
+    const backend = process.env.BACKEND_URL || "http://tasker-backend:3333";
     return [
       {
         source: "/api/:path*",

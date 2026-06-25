@@ -6,6 +6,8 @@ RUN npm ci
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+ARG BACKEND_URL=http://backend:3333
+ENV BACKEND_URL=$BACKEND_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # buildar o next

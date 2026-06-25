@@ -1,0 +1,9 @@
+# ConfigMap com configurações não sensíveis do backend.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.global.backend.name }}-config
+  labels:
+    app: {{ .Values.global.backend.name }}
+data:
+  PORT: {{ .Values.global.backend.port | quote }}

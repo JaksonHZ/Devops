@@ -1,0 +1,20 @@
+global:
+  ingress:
+    host: k8s.local         
+    className: nginx        
+
+  db:
+    name: tasker-db        
+    user: docker
+    password: docker
+    database: tasker
+    port: 5432
+
+  backend:
+    name: tasker-backend    
+    port: 3333
+    jwtSecret: supersecretjwt
+
+  frontend:
+    name: tasker-frontend  
+    port: 3000

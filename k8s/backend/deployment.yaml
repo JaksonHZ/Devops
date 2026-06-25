@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasker-backend
+  labels:
+    app: tasker-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tasker-backend
+  template:
+    metadata:
+      labels:
+        app: tasker-backend
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - "until nc -z tasker-db 5432; do echo 'aguardando o banco...'; sleep 2; done"
+      containers:
+        - name: tasker-backend
+          image: jaksonhz/tasker-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3333
+          envFrom:
+            - configMapRef:
+                name: tasker-backend-config
+            - secretRef:
+                name: tasker-backend-secret
+          readinessProbe:
+            tcpSocket:
+              port: 3333
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

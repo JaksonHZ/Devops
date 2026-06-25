@@ -1,0 +1,8 @@
+# Padrões ignorados ao empacotar o chart
+.DS_Store
+.git/
+.gitignore
+*.tmproj
+*.bak
+*.orig
+*~

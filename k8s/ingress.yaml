@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tasker-ingress
+  labels:
+    app: tasker
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: k8s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tasker-frontend
+                port:
+                  number: 3000

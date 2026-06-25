@@ -1,0 +1,17 @@
+# PersistentVolume local (hostPath) para persistir os dados do banco no nó do Minikube.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.global.db.name }}-pv
+  labels:
+    type: local
+    app: {{ .Values.global.db.name }}
+spec:
+  storageClassName: manual
+  capacity:
+    storage: {{ .Values.storage.size }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.storage.hostPath | quote }}
+    type: DirectoryOrCreate

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tasker-backend-config
+  labels:
+    app: tasker-backend
+data:
+  PORT: "3333"

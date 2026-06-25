@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.frontend.name }}
+  labels:
+    app: {{ .Values.global.frontend.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.frontend.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.frontend.name }}
+    spec:
+      containers:
+        - name: {{ .Values.global.frontend.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.global.frontend.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.global.frontend.name }}-config
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.global.frontend.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
