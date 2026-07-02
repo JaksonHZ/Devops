@@ -8,6 +8,18 @@ Este documento descreve **(a)** a aplicação e seus componentes/containers, **(
 roteiro de testes e **(c)** os artefatos Kubernetes utilizados na implantação da
 aplicação no Minikube, conforme os critérios de avaliação do trabalho.
 
+
+# RODAR A APLICAÇÃO
+
+```
+bash scripts/up.sh
+```
+
+OBS: Se certifique que tenha todas as ferramentas instaladas, caso nao tenha
+
+```
+bash scripts/install-tools.sh
+```
 ---
 
 ## Sumário
